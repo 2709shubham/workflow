@@ -20,10 +20,6 @@ jobs:
         with:
           github-token: ${{ secrets.prmerge }}
 
-      # Debug: Check auto-approve result
-      - name: Print auto-approve result
-        run: echo "Auto-approve step outcome: ${{ steps.auto_approve.outcome }}"
-
       # Install the GitHub CLI
       - name: Install GitHub CLI
         run: |
@@ -38,7 +34,7 @@ jobs:
 
       # Merge the pull request
       - name: Merge pull request
-        if: ${{ steps.auto_approve.outcome == 'success' }}
         run: gh pr merge ${{ github.event.pull_request.number }} --merge --admin --repo ${{ github.repository }}
         env:
           GITHUB_TOKEN: ${{ secrets.prmerge }}
+
