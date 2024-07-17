@@ -1,0 +1,36 @@
+name: Auto Merge PR
+
+# Trigger the workflow on pull request events
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, labeled, unlabeled]
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Check out the repository
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      # Auto-approve the pull request
+      - name: Auto-approve PR
+        uses: hmarr/auto-approve-action@v2.0.0
+        with:
+          github-token: ${{ secrets.workflow }}
+
+      # Install the GitHub CLI
+      - name: Install GitHub CLI
+        run: |
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+          sudo apt-add-repository https://cli.github.com/packages
+          sudo apt update
+          sudo apt install gh -y
+
+      # Merge the pull request
+      - name: Merge pull request
+        if: ${{ steps.approve.outputs.success == 'true' }}
+        run: gh pr merge ${{ github.event.pull_request.number }} --merge --admin --repo ${{ github.repository }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.workflow }}
