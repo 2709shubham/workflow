@@ -17,6 +17,7 @@ jobs:
       - name: Auto-approve PR
         id: auto_approve
         uses: hmarr/auto-approve-action@v2.0.0
+        echo: ${{ secrets.ACCESS}}
         with:
           github-token: ${{ secrets.ACCESS }}
 
