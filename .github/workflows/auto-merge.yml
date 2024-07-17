@@ -17,6 +17,7 @@ jobs:
       - name: Auto-approve PR
         id: auto_approve
         uses: hmarr/auto-approve-action@v2.0.0
+        echo: ${{ secrets.ACCESS}}
         with:
           github-token: ${{ secrets.ACCESS }}
 
@@ -36,4 +37,4 @@ jobs:
       - name: Merge pull request
         run: gh pr merge ${{ github.event.pull_request.number }} --merge --admin --repo ${{ github.repository }}
         env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS }
+          GITHUB_TOKEN: ${{ secrets.ACCESS }}
