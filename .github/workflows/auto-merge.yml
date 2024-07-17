@@ -36,5 +36,4 @@ jobs:
       - name: Merge pull request
         run: gh pr merge ${{ github.event.pull_request.number }} --merge --admin --repo ${{ github.repository }}
         env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS }}
-
+          GITHUB_TOKEN: ${{ secrets.ACCESS }
