@@ -1,6 +1,5 @@
 name: Auto Merge PR
 
-# Trigger the workflow on pull request events
 on:
   pull_request:
     types: [opened, reopened, synchronize, labeled, unlabeled]
@@ -16,6 +15,7 @@ jobs:
 
       # Auto-approve the pull request
       - name: Auto-approve PR
+        id: auto_approve
         uses: hmarr/auto-approve-action@v2.0.0
         with:
           github-token: ${{ secrets.ACCESS }}
@@ -28,9 +28,12 @@ jobs:
           sudo apt update
           sudo apt install gh -y
 
+      # Debug: Verify GitHub CLI installation
+      - name: Check GitHub CLI version
+        run: gh --version
+
       # Merge the pull request
       - name: Merge pull request
-        if: ${{ steps.approve.outputs.success == 'true' }}
         run: gh pr merge ${{ github.event.pull_request.number }} --merge --admin --repo ${{ github.repository }}
         env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS }}
+          GITHUB_TOKEN: ${{ secrets.ACCESS }
