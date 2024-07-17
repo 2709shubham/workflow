@@ -20,6 +20,10 @@ jobs:
         with:
           github-token: ${{ secrets.prmerge }}
 
+      # Debug: Check auto-approve result
+      - name: Print auto-approve result
+        run: echo "Auto-approve step outcome: ${{ steps.auto_approve.outcome }}"
+
       # Install the GitHub CLI
       - name: Install GitHub CLI
         run: |
@@ -27,6 +31,10 @@ jobs:
           sudo apt-add-repository https://cli.github.com/packages
           sudo apt update
           sudo apt install gh -y
+
+      # Debug: Verify GitHub CLI installation
+      - name: Check GitHub CLI version
+        run: gh --version
 
       # Merge the pull request
       - name: Merge pull request
